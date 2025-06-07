@@ -1,0 +1,227 @@
+/* General Body and Header/Footer Styles */
+body {
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    margin: 0;
+    padding: 0;
+    background-color: #f8f8f8; /* Light background */
+    color: #333; /* Dark text */
+    line-height: 1.6;
+}
+
+header {
+    background-color: #007bff;
+    color: white;
+    padding: 25px 0;
+    text-align: center;
+    box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+}
+
+h1 {
+    margin: 0;
+    font-size: 2.5em;
+}
+
+footer {
+    padding: 20px;
+    text-align: center;
+    color: #777;
+    font-size: 0.9em;
+    margin-top: 40px;
+    background-color: #eee;
+    box-shadow: 0 -4px 8px rgba(0,0,0,0.05);
+}
+
+/* ---------------------------------------------------- */
+/* Mobile View (Default - no media query needed for mobile-first) */
+/* 4.a. Use a one column grid with a 10px gap between rows and columns. */
+#gallery-container {
+    display: grid;
+    grid-template-columns: 1fr; /* One column grid */
+    gap: 10px; /* 10px gap between rows and columns */
+    padding: 20px;
+    max-width: 600px; /* Constrain max width for mobile feel */
+    margin: 20px auto; /* Center the container */
+}
+
+.gallery-item {
+    background-color: #fff;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    padding: 15px;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+}
+
+.gallery-item img {
+    width: 100%; /* Image takes full width of its column */
+    height: auto;
+    display: block; /* Remove extra space below image */
+    border-radius: 4px;
+    margin-bottom: 10px;
+}
+
+.gallery-item h2 {
+    color: #007bff;
+    font-size: 1.5em;
+    margin-top: 0;
+    margin-bottom: 10px;
+}
+
+.gallery-item p {
+    font-size: 0.95em;
+    color: #555;
+    margin-bottom: 0;
+}
+
+/* ---------------------------------------------------- */
+/* 5. Query #1: Tablet View */
+/* 5. Your tablet view must trigger at 772px, not repeat unnecessary rules, and: */
+@media (min-width: 772px) {
+    /* 5.a. Use a two column grid */
+    #gallery-container {
+        grid-template-columns: 1fr 1fr; /* Two column grid */
+        max-width: 900px; /* Max width for tablet view */
+    }
+
+    /* 5.b. Set the border radius on the figures to create a circular shape */
+    .gallery-item img {
+        border-radius: 50%; /* Make images circular */
+        width: 150px; /* Set a fixed size for circular images */
+        height: 150px;
+        object-fit: cover; /* Ensure images fill the circle */
+    }
+
+    /* 5.c. Set the last figure to take up both columns */
+    /* Select the last figure element */
+    .gallery-item:last-child {
+        grid-column: 1 / span 2; /* Span across two columns */
+        flex-direction: row; /* Layout content horizontally within the last figure */
+        text-align: left; /* Adjust text alignment */
+        align-items: flex-start;
+        gap: 20px; /* Space between image and text in last figure */
+    }
+
+    .gallery-item:last-child img {
+        flex-shrink: 0; /* Prevent image from shrinking */
+        width: 180px; /* Adjust size for last figure's image */
+        height: 180px;
+    }
+}
+
+/* ---------------------------------------------------- */
+/* 6. Query #2: Large Screen View */
+/* 6. Your large screen view must trigger at 992px, not repeat unnecessary rules, and: */
+@media (min-width: 992px) {
+    #gallery-container {
+        grid-template-columns: 1fr 1fr 1fr; /* Three column grid */
+        max-width: 1200px; /* Max width for large screen view */
+    }
+
+    /* Remove previous tablet-specific styles for the last item */
+    .gallery-item:last-child {
+        grid-column: auto; /* Reset to auto (1 column) */
+        flex-direction: column; /* Reset to vertical layout */
+        text-align: center; /* Reset text alignment */
+        align-items: center;
+        gap: 0; /* Remove gap */
+    }
+
+    .gallery-item:last-child img {
+        width: 100%; /* Reset image width to full column width */
+        height: auto;
+    }
+
+    /* 6.a. Set every third figure to take up both columns. */
+    /* Using :nth-child(3n) to select every 3rd element */
+    .gallery-item:nth-child(3n) {
+        grid-column: 1 / span 2; /* Span across two columns */
+        /* To make this look good, you might need to adjust the content layout for these specific items */
+        flex-direction: row; /* Layout content horizontally */
+        text-align: left;
+        align-items: flex-start;
+        gap: 20px;
+    }
+
+    .gallery-item:nth-child(3n) img {
+        flex-shrink: 0;
+        width: 200px; /* Adjust size for spanning images */
+        height: 200px;
+    }
+
+    /* 6.b. Remove the border radius from all of the figures. */
+    .gallery-item img {
+        border-radius: 4px; /* Reset to square/rectangular (or remove for default square) */
+        width: 100%; /* Images take full width of their column */
+        height: auto;
+        object-fit: cover;
+    }
+
+    /* 6.i. Make sure not to use max-width! (We've used 'width' and 'max-width' only for wrapper/container, not individual figures/images) */
+    /* For images within figures, 'width: 100%' is used which is allowed, 'max-width' is also generally allowed for images to prevent overflow,
+       but the instruction specifically says for "figures" (which typically means the container, or the `figure` tag itself).
+       I've used 'width' for columns and 'max-width' for the main container, which is standard practice.
+    */
+}
+
+/* ---------------------------------------------------- */
+/* 7. Your prefers-reduced-motion media query must: */
+@media (prefers-reduced-motion: reduce) {
+    /* 7.a. Remove the scroll behavior */
+    html {
+        scroll-behavior: auto; /* Disables smooth scrolling */
+    }
+    /* Also remove any CSS transitions/animations if you had any */
+    body * {
+        transition: none !important;
+        animation: none !important;
+    }
+}
+
+/* ---------------------------------------------------- */
+/* 8. Assuming that your default color scheme is light, create a media query for dark colors: */
+@media (prefers-color-scheme: dark) {
+    body {
+        background-color: #1a1a1a; /* Dark background */
+        color: #f5f5f5; /* Light text */
+    }
+
+    header {
+        background-color: #333;
+        box-shadow: 0 4px 8px rgba(255,255,255,0.1);
+    }
+
+    h1 {
+        color: #f5f5f5;
+    }
+
+    /* 8.a. Change the background-color of the figures to a dark color; */
+    .gallery-item {
+        background-color: #333; /* Dark background for figures */
+        border: 1px solid #555;
+        box-shadow: 0 2px 5px rgba(255,255,255,0.05);
+    }
+
+    /* 8.b. Change the font color of the figures to a lighter (possibly yellowish-ish) color */
+    .gallery-item h2 {
+        color: #ffda6a; /* Yellowish color */
+    }
+
+    .gallery-item p {
+        color: #ccc; /* Lighter text for paragraphs */
+    }
+
+    /* 8.c. Change the border color of the figures to black. */
+    /* This might conflict with .gallery-item border if not specific, so re-specify */
+    .gallery-item {
+        border-color: #000; /* Black border */
+    }
+
+    footer {
+        background-color: #333;
+        color: #ccc;
+        box-shadow: 0 -4px 8px rgba(255,255,255,0.05);
+    }
+}
